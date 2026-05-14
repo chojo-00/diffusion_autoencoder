@@ -15,7 +15,7 @@ from torch.multiprocessing import Process
 
 from logger import Logger
 from distributed_util import init_processes
-from dataset import dataset
+from dataset.image_dataset import PNGGrayDataset
 from diffae import Runner
 
 import colored_traceback.always
@@ -120,7 +120,7 @@ def main(opt):
         set_seed(opt.seed + opt.global_rank)
 
     # build dataset
-    train_dataset = dataset.DiffAEDataset(opt, log, mode='train')
+    train_dataset = PNGGrayDataset(opt, log, mode='train')
     # note: images should be normalized to [-1,1] for corruption methods to work properly
 
     run = Runner(opt, log)
