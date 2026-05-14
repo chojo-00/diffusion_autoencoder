@@ -17,11 +17,10 @@ from torchvision import transforms as T
 EXTENSION = ['.jpg', '.jpeg', '.png', '.tiff', '.dcm']
 
 # customize class list if you need
-CLASS_LIST = ['1', '2', '3']
+CLASS_LIST = ['class1', 'class2', 'class3']
 
 # customize class dict if you need
-CLASS_DICT = {'1': 0, '2': 1, '3': 2}
-
+CLASS_DICT = {'class1': 0, 'class2': 1, 'class3': 2}
 
 class DiffAEDataset(Dataset):
     def __init__(self, opt, log, mode):
