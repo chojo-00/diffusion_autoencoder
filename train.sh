@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J diffae_train_ver1
+#SBATCH -J diffae_train_ver2_noclahe
 #SBATCH -t 7-00:00:00
 #SBATCH -o logs_eda/%x_%A_%N.out
 #SBATCH --mail-type END,TIME_LIMIT_90,REQUEUE,INVALID_DEPEND,BEGIN
@@ -8,14 +8,14 @@
 #SBATCH -w gpu120
 #SBATCH --gres=gpu:1
 
-# export HTTP_PROXY="http://192.168.45.108:3128"
-# export HTTPS_PROXY="http://192.168.45.108:3128"
+export HTTP_PROXY="http://192.168.45.108:3128"
+export HTTPS_PROXY="http://192.168.45.108:3128"
 
 # Define vars
-JOB_NAME="diffae_train_ver1"
+JOB_NAME="diffae_train_ver2_noclahe"
 DOCKER_IMAGE_NAME="bc_cho/${JOB_NAME}"
 DOCKER_CONTAINER_NAME="bc_cho${JOB_NAME}"
-PORT_NUM=4966
+PORT_NUM=4913
 
 # Paths inside the container
 CODE_DIR="/workspace/bc_cho/1_Model/diffae-custom"
@@ -48,13 +48,14 @@ docker run --rm \
         bash -c "
             cd ${CODE_DIR} && \
             python train.py \
-                --name my_experiment \
-                --dataset-dir "/workspace/bc_cho/0_Project/1_class3_ceph/Mydataset/bccho/asan_processing_ver3_size512_foldering" \
+                --name my_experiment_ver4 \
+                --dataset-dir "/workspace/bc_cho/0_Project/1_class3_ceph/Mydataset/bccho/asan_processing_ver3_size512_foldering_new" \
                 --image-size 512 \
                 --in-channels 1 \
                 --batch-size 64 \
                 --microbatch 1 \
                 --num-itr 100000 \
+                --n-gpu-per-node 1 \
                 --log-writer tensorboard
 
         "
