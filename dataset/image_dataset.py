@@ -32,17 +32,17 @@ class PNGGrayDataset(Dataset):
 
         root = Path(opt.dataset_dir) / mode
 
-        # class 서브폴더 → png_post_clahe 서브폴더 탐색
+        # class 서브폴더 → png_pre_clahe 서브폴더 탐색
         fnames = []
         for class_dir in sorted(root.iterdir()):
             if not class_dir.is_dir():
                 continue
-            png_dir = class_dir / 'png_post_clahe'
+            png_dir = class_dir / 'png_pre_clahe'
             if png_dir.exists():
                 for ext in EXTENSIONS:
                     fnames.extend(sorted(png_dir.rglob(f'*{ext}')))
             else:
-                # png_post_clahe 서브폴더 없으면 class 폴더 직접 탐색
+                # png_pre_clahe 서브폴더 없으면 class 폴더 직접 탐색
                 for ext in EXTENSIONS:
                     fnames.extend(sorted(class_dir.rglob(f'*{ext}')))
 
