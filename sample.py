@@ -18,7 +18,7 @@ from logger import Logger
 import distributed_util as dist_util
 from diffae.runner import Runner as Diffae_Runner
 # from diffae.runner_latent import Runner as LDM_Runner
-from dataset import dataset
+from dataset.image_dataset import PNGGrayDataset
 from diffae import ckpt_util
 from guided_diffusion.script_util import create_gaussian_diffusion
 
@@ -76,7 +76,7 @@ def build_partition(opt, full_dataset, log):
     return subset
 
 def build_val_dataset(opt, log):
-    val_dataset = dataset.Dataset(opt, log, mode='test')
+    val_dataset = PNGGrayDataset(opt, log, mode='test')
 
     # build partition
     if opt.partition is not None:

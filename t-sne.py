@@ -20,8 +20,8 @@ import torchvision.utils as tu
 
 from logger import Logger
 import distributed_util as dist_util
-from classifier.runner import Runner
-from dataset import dataset
+from diffae.runner import Runner
+from dataset.image_dataset import PNGGrayDataset
 from diffae import ckpt_util
 
 import colored_traceback.always
@@ -78,7 +78,7 @@ def build_partition(opt, full_dataset, log):
     return subset
 
 def build_val_dataset(opt, log):
-    val_dataset = dataset.Dataset(opt, log, mode='test')
+    val_dataset = PNGGrayDataset(opt, log, mode='test')
 
     # build partition
     if opt.partition is not None:
@@ -110,7 +110,7 @@ def scale_to_01_range(x):
 def draw_rectangle_by_class(image, label, palette):
     image_height, image_width, _ = image.shape
 
-    colors = [(255,0,0),(0,255,0),(0,0,255), (0,125,125)]
+    colors = [(255,0,0),(255,255,0),(0,0,255), (0,125,125)]
     # get the color corresponding to image class
     image = cv2.rectangle(image, (0, 0), (image_width - 1, image_height - 1), color=colors[label], thickness=5)
 

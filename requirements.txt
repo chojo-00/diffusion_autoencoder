@@ -18,6 +18,7 @@ pydicom==2.1.0
 rich
 scipy
 scikit-learn
+seaborn
 tensorboard
 termcolor
 torch-ema
