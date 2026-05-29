@@ -50,7 +50,7 @@ docker run --rm \
             python train.py \
                 --name my_experiment_ver3 \
                 --dataset-dir "/workspace/bc_cho/0_Project/1_class3_ceph/Mydataset/bccho/asan_processing_ver3_size512_foldering_new" \
-                --ckpt "/workspace/bc_cho/1_Model/diffae-custom/results/diffae/my_experiment_ver3/0090000.pt" \
+                --ckpt "my_experiment_ver3" \
                 --start-itr 90000 \
                 --image-size 512 \
                 --in-channels 1 \
