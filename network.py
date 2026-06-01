@@ -46,32 +46,29 @@ class DiffAE(torch.nn.Module):
         self.noise_levels = noise_levels
 
     def forward(self, xt, steps, x0=None, generated_style=None):
-        """
-        Args:
-            xt (torch.tensor): A tensor of x at time step t.
-                shape = (B, C, H, W)
-                dtype = torch.float32
-            steps (torch.tensor): A tensor of time steps.
-                shape = (B, )
-                dtype = torch.float32
-            x0 (torch.tensor): A tensor of original image.
-                shape = (B, C, H, W)
-                dtype = torch.float32
-            genetrated_style (torch.tensor): A tensor of z_sem.
-                shape = (B, emb_dim)
-                dtype = torch.float32
+            """
+            Args:
+                xt (torch.tensor): A tensor of x at time step t.
+                    shape = (B, C, H, W)
+                steps (torch.tensor): A tensor of time steps.
+                    shape = (B, )
+                x0 (torch.tensor): A tensor of original image.
+                    shape = (B, C, H, W)
+                generated_style (torch.tensor): A tensor of z_sem.
+                    shape = (B, emb_dim)
 
-        Returns:
-            out (torch.tensor): A tensor of output.
-                shape = (B, C, H, W)
-                dtype = torch.float32
-        """
-        t = self.noise_levels[steps].detach()
-        assert t.dim()==1 and t.shape[0] == xt.shape[0]
-        style_emb = self.semantic_enc(x0).detach() if generated_style is None else generated_style
-        out = self.diffusion_model(xt, t, style_emb)
-        return out, style_emb
-    
+            Returns:
+                out (torch.tensor): A tensor of output.
+                    shape = (B, C, H, W)
+            """
+            t = self.noise_levels[steps].detach()
+            assert t.dim() == 1 and t.shape[0] == xt.shape[0]
+            if generated_style is None:
+                style_emb = self.semantic_enc(x0)   # detach 제거 → encoder까지 gradient 전파
+            else:
+                style_emb = generated_style
+            out = self.diffusion_model(xt, t, style_emb)
+            return out, style_emb
 #===================================================================================================#
 #                                 Second Stage: Latent DDIM Network                                 #
 #===================================================================================================#

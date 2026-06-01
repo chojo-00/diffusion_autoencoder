@@ -110,7 +110,7 @@ def scale_to_01_range(x):
 def draw_rectangle_by_class(image, label, palette):
     image_height, image_width, _ = image.shape
 
-    colors = [(255,0,0),(255,255,0),(0,0,255), (0,125,125)]
+    colors = [(255,0,0),(0,255,0),(0,0,255), (0,125,125)]
     # get the color corresponding to image class
     image = cv2.rectangle(image, (0, 0), (image_width - 1, image_height - 1), color=colors[label], thickness=5)
 
@@ -246,7 +246,7 @@ def main(opt):
 
     plt.scatter(tsne_df_0['x-tsne'], tsne_df_0['y-tsne'], s = 5, color = 'red', label = 'Class1')
     plt.scatter(tsne_df_1['x-tsne'], tsne_df_1['y-tsne'], s = 5, color = 'blue', label = 'Class2')
-    plt.scatter(tsne_df_2['x-tsne'], tsne_df_2['y-tsne'], s = 5, color = 'olive', label = 'Class3')
+    plt.scatter(tsne_df_2['x-tsne'], tsne_df_2['y-tsne'], s = 5, color = 'yellow', label = 'Class3')
 
     plt.xlabel('component 0')
     plt.ylabel('component 1')

@@ -74,6 +74,7 @@ def create_training_options():
 
     # --------------- path and logging ---------------
     parser.add_argument("--dataset-dir",    type=Path,  default="/data",     help="path to dataset")
+    parser.add_argument("--image-subdir", type=str, default="png_pre_clahe", help="각 클래스 폴더 안에서 이미지를 읽을 하위 폴더 이름")
     parser.add_argument("--log-dir",        type=Path,  default=".log",      help="path to log std outputs and writer data")
     parser.add_argument("--log-writer",     type=str,   default=None,        help="log writer: can be tensorbard, wandb, or None")
     parser.add_argument("--wandb-api-key",  type=str,   default=None,        help="unique API key of your W&B account; see https://wandb.ai/authorize")
