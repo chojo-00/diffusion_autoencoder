@@ -29,28 +29,33 @@ class PNGGrayDataset(Dataset):
         self.mode = mode
         self.image_size = opt.image_size
         self.in_channels = getattr(opt, 'in_channels', 1)
+        # 클래스 폴더 안에서 이미지를 찾을 하위 폴더 이름 (인자로 주입)
+        self.image_subdir = getattr(opt, 'image_subdir', 'png_pre_clahe')
 
         root = Path(opt.dataset_dir) / mode
+        if not root.is_dir():
+            raise FileNotFoundError(f"[Dataset] Root folder not found: {root}")
 
-        # class 서브폴더 → png_pre_clahe 서브폴더 탐색
         fnames = []
         for class_dir in sorted(root.iterdir()):
             if not class_dir.is_dir():
                 continue
-            png_dir = class_dir / 'png_pre_clahe'
-            if png_dir.exists():
-                for ext in EXTENSIONS:
-                    fnames.extend(sorted(png_dir.rglob(f'*{ext}')))
-            else:
-                # png_pre_clahe 서브폴더 없으면 class 폴더 직접 탐색
-                for ext in EXTENSIONS:
-                    fnames.extend(sorted(class_dir.rglob(f'*{ext}')))
+            img_dir = class_dir / self.image_subdir
+            if not img_dir.is_dir():
+                # 폴백 없이 즉시 종료
+                raise FileNotFoundError(
+                    f"[Dataset] Required subfolder '{self.image_subdir}' not found "
+                    f"in class folder: {class_dir}"
+                )
+            for ext in EXTENSIONS:
+                fnames.extend(sorted(img_dir.rglob(f'*{ext}')))
 
         self.image_fnames = sorted({str(p) for p in fnames})
-
         if len(self.image_fnames) == 0:
-            raise IOError(f"No PNG/JPG files found under {root}")
-        log.info(f"[Dataset] {mode}: {len(self.image_fnames)} images @ {root}")
+            raise IOError(f"No PNG/JPG files found under {root}/*/{self.image_subdir}")
+        log.info(f"[Dataset] {mode}: {len(self.image_fnames)} images @ {root} "
+                f"(subdir='{self.image_subdir}')")
+        
 
         # 라벨: 파일 경로에서 class 폴더 이름 추출
         # 경로 예: .../class1/png/IRB....png → class1
