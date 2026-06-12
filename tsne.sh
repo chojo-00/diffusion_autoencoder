@@ -1,18 +1,17 @@
 #!/bin/bash
-#SBATCH -J diffae_tsne_asan_processing_ver3_size512_foldering_new
+#SBATCH -J diffae_tsne_asan_processing_ver2_normalized_bitstored_minmax_foldering_ruleron_clahe_on_size512
 #SBATCH -t 7-00:00:00
 #SBATCH -o logs_eda/%x_%A_%N.out
 #SBATCH --mail-type END,TIME_LIMIT_90,REQUEUE,INVALID_DEPEND,BEGIN
 #SBATCH --mail-user chobyeongcheon00@gmail.com
-#SBATCH -p A6000
-#SBATCH -w gpu120
+#SBATCH -p RTX3090
 #SBATCH --gres=gpu:1
 
 export HTTP_PROXY="http://192.168.45.108:3128"
 export HTTPS_PROXY="http://192.168.45.108:3128"
 
 # Define vars
-JOB_NAME="diffae_tsne_asan_processing_ver3_size512_foldering_new"
+JOB_NAME="diffae_tsne_asan_processing_ver2_normalized_bitstored_minmax_foldering_ruleron_clahe_on_size512"
 DOCKER_IMAGE_NAME="bc_cho/${JOB_NAME}"
 DOCKER_CONTAINER_NAME="bc_cho${JOB_NAME}"
 PORT_NUM=4835
@@ -52,9 +51,10 @@ docker run --rm \
             pip install seaborn tensorboardX && \
             cd ${CODE_DIR} && \
             python t-sne.py \
-                --dataset-dir '/workspace/bc_cho/0_Project/1_class3_ceph/Mydataset/bccho/asan_processing_ver3_size512_foldering_new' \
-                --ckpt 'diffae/my_experiment_ver3' \
-                --load-itr 0100000 \
+                --dataset-dir '/workspace/bc_cho/0_Project/1_class3_ceph/Mydataset/bccho/asan_processing_ver2_normalized_bitstored_minmax_foldering' \
+                --ckpt 'diffae/my_experiment_ver4_Ruler_ON_CLAHE_ON' \
+                --image-subdir png_RulerON_CLAHE_ON \
+                --load-itr 0040000 \
                 --image-size 512 \
                 --batch-size 10 
         "
