@@ -226,7 +226,7 @@ def main(opt):
     #     + [(i // len(latent_features)) + 2 for i in range(int(len(latent_features)/3))]
     log.info(f"features size: {feats.numpy().shape}")
     log.info(f"labels size: {len(labels)}")
-    tsne = TSNE(n_components=n_components, perplexity=perplexity, random_state=opt.seed)
+    tsne = TSNE(n_components=n_components, perplexity=perplexity, n_iter=3000, random_state=opt.seed)
     tsne_result = tsne.fit_transform(feats.data)
     log.info(f"T-SNE result shape: {tsne_result.shape}")
 
@@ -298,8 +298,9 @@ if __name__ == '__main__':
     parser.add_argument("--num-proc-node",  type=int,  default=1,           help="The number of nodes in multi node env")
 
     # data
-    parser.add_argument("--image-size",     type=int,  default=256)
+    parser.add_argument("--image-size",     type=int,  default=512)
     parser.add_argument("--dataset-dir",    type=Path, default="/data",     help="path to dataset")
+    parser.add_argument("--image-subdir",   type=str,  default="png_pre_clahe", help="각 클래스 폴더 안에서 이미지를 읽을 하위 폴더 이름")
     parser.add_argument("--partition",      type=str,  default=None,        help="e.g., '0_4' means the first 25% of the dataset")
 
     # sample

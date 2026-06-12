@@ -73,7 +73,8 @@ def create_training_options():
     parser.add_argument("--ema",            type=float, default=0.99)
 
     # --------------- path and logging ---------------
-    parser.add_argument("--dataset-dir",    type=Path,  default="/data",     help="path to dataset")
+    # --------------- path and logging ---------------
+    parser.add_argument("--dataset-dir",    type=str, nargs='+', default=["/data"], help="paths to dataset(s)")
     parser.add_argument("--image-subdir", type=str, default="png_pre_clahe", help="각 클래스 폴더 안에서 이미지를 읽을 하위 폴더 이름")
     parser.add_argument("--log-dir",        type=Path,  default=".log",      help="path to log std outputs and writer data")
     parser.add_argument("--log-writer",     type=str,   default=None,        help="log writer: can be tensorbard, wandb, or None")

@@ -194,6 +194,7 @@ if __name__ == '__main__':
     # data
     parser.add_argument("--image-size",     type=int,  default=256)
     parser.add_argument("--dataset-dir",    type=Path, default="/data",     help="path to dataset")
+    parser.add_argument("--image-subdir",   type=str,  default="", help="이미지를 읽을 하위 폴더 이름")
     parser.add_argument("--partition",      type=str,  default=None,        help="e.g., '0_4' means the first 25% of the dataset")
 
     # latent ddim
